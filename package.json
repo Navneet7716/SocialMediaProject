@@ -1,0 +1,32 @@
+{
+  "name": "SocialMediaProject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "ts-node src/server.ts",
+    "watch": "tsc -w",
+    "dev-build": "nodemon build/server.js",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^15.6.0",
+    "prisma": "^2.23.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.11"
+  },
+  "dependencies": {
+    "@prisma/client": "^2.23.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-validator": "^6.11.1",
+    "morgan": "^1.10.0"
+  }
+}
