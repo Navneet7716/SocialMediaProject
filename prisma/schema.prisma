@@ -25,8 +25,7 @@ model post {
   userId     Int?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  upvotes    Int      @default(0)
-  downvotes  Int      @default(0)
+  votes      Int      @default(0)
 
   user user? @relation(fields: [userId], references: [id])
 }
