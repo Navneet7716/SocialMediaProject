@@ -14,7 +14,8 @@ export async function getPost(req: Request, res: Response) {
     try {
         let posts = await prisma.post.findMany({
             take: 10, include: {
-                user: true
+                user: true,
+                votes: true
             }
         })
 
@@ -106,34 +107,23 @@ export async function addVote(req: Request, res: Response) {
     let id = parseInt(req.params.id);
 
     try {
+        await prisma.votes.create({
 
-        const updatedPost = await prisma.post.findUnique({
-            where: {
-                id: id
-            },
-            select: {
-                votes: true
+            data: {
+                post_id: id,
+                by: 1
             }
         })
 
-        if (updatedPost === null) {
-            throw Error("Post Doesn't exist")
-        }
-
-        updatedPost.votes += 1
-
-        await prisma.post.update({
+        let totalVotes = await prisma.votes.findMany({
             where: {
-                id: id
-            },
-            data: {
-                votes: updatedPost.votes
+                post_id: id
             }
         })
 
         res.status(200).json({
             "message": "Successfull",
-            "data": updatedPost
+            "data": totalVotes.length
         })
 
     } catch (error) {
@@ -145,58 +135,58 @@ export async function addVote(req: Request, res: Response) {
 
     }
 
-
 }
-export async function deleteVote(req: Request, res: Response) {
+// }
+// export async function deleteVote(req: Request, res: Response) {
 
-    let id = parseInt(req.params.id);
+//     let id = parseInt(req.params.id);
 
-    try {
+//     try {
 
-        const updatedPost = await prisma.post.findUnique({
-            where: {
-                id: id
-            },
-            select: {
-                votes: true
-            }
-        })
+//         const updatedPost = await prisma.post.findUnique({
+//             where: {
+//                 id: id
+//             },
+//             select: {
+//                 votes: true
+//             }
+//         })
 
-        if (updatedPost === null) {
-            throw Error("Post Doesn't exist")
-        }
+//         if (updatedPost === null) {
+//             throw Error("Post Doesn't exist")
+//         }
 
-        updatedPost.votes -= 1
+//         updatedPost.votes -= 1
 
-        if (updatedPost.votes < 0) {
-            updatedPost.votes = 0
-        }
+//         if (updatedPost.votes < 0) {
+//             updatedPost.votes = 0
+//         }
 
-        await prisma.post.update({
-            where: {
-                id: id
-            },
-            data: {
-                votes: updatedPost.votes
-            }
-        })
+//         await prisma.post.update({
+//             where: {
+//                 id: id
+//             },
+//             data: {
+//                 votes: updatedPost.votes
+//             }
+//         })
 
-        res.status(200).json({
-            "message": "Successfull",
-            "data": updatedPost
-        })
+//         res.status(200).json({
+//             "message": "Successfull",
+//             "data": updatedPost
+//         })
 
-    } catch (error) {
-        console.log(error)
-        res.status(400).json({
-            "message": "error",
-            "error": error.toString()
-        })
+//     } catch (error) {
+//         console.log(error)
+//         res.status(400).json({
+//             "message": "error",
+//             "error": error.toString()
+//         })
 
-    }
+//     }
 
 
-}
+// }
 export async function deletePost(req: Request, res: Response) {
 
 }

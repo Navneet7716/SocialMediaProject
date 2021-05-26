@@ -45,11 +45,12 @@ model relationships {
 model votes {
   id         Int      @id @default(autoincrement())
   by         Int
-  post_id    Int
+  post_id    Int      @unique
   created_at DateTime @default(now())
   user       user?    @relation(fields: [by], references: [id])
   post       post     @relation(fields: [post_id], references: [id])
 
+  @@unique([by, post_id])
 }
 
 model notifications {
