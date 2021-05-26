@@ -18,19 +18,19 @@ model user {
   posts         post[]
   notifications notifications[]
   comments      comments[]
+  votes         votes[]
 }
 
 model post {
-  id         Int      @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   body       String
   title      String
   userId     Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  votes      Int      @default(0)
-
-  user     user       @relation(fields: [userId], references: [id])
-  comments comments[]
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  user       user       @relation(fields: [userId], references: [id])
+  comments   comments[]
+  votes      votes[]
 }
 
 model relationships {
@@ -40,6 +40,16 @@ model relationships {
   follow_date DateTime @default(now())
 
   @@unique([followed_id, follower_id])
+}
+
+model votes {
+  id         Int      @id @default(autoincrement())
+  by         Int
+  post_id    Int
+  created_at DateTime @default(now())
+  user       user?    @relation(fields: [by], references: [id])
+  post       post     @relation(fields: [post_id], references: [id])
+
 }
 
 model notifications {
