@@ -8,26 +8,29 @@ datasource db {
 }
 
 model user {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique
-  password   String
-  email      String   @unique
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  role       String   @default("USER")
-  posts      post[]
+  id            Int             @id @default(autoincrement())
+  username      String          @unique
+  password      String
+  email         String          @unique
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  role          String          @default("USER")
+  posts         post[]
+  notifications notifications[]
+  comments      comments[]
 }
 
 model post {
   id         Int      @id @default(autoincrement())
   body       String
   title      String
-  userId     Int?
+  userId     Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   votes      Int      @default(0)
 
-  user user? @relation(fields: [userId], references: [id])
+  user     user       @relation(fields: [userId], references: [id])
+  comments comments[]
 }
 
 model relationships {
@@ -37,4 +40,24 @@ model relationships {
   follow_date DateTime @default(now())
 
   @@unique([followed_id, follower_id])
+}
+
+model notifications {
+  id         Int      @id @default(autoincrement())
+  message    String
+  from       Int
+  active     Boolean  @default(true)
+  created_at DateTime @default(now())
+  user       user?    @relation(fields: [from], references: [id])
+}
+
+model comments {
+  id         Int      @id @default(autoincrement())
+  comment    String
+  by         Int
+  post_id    Int
+  created_at DateTime @default(now())
+
+  user user @relation(fields: [by], references: [id])
+  post post @relation(fields: [post_id], references: [id])
 }
