@@ -15,7 +15,10 @@ export async function getPost(req: Request, res: Response) {
         let posts = await prisma.post.findMany({
             take: 10, include: {
                 user: true,
-                votes: true
+                votes: true,
+                _count: {
+                    select: { votes: true },
+                }
             }
         })
 
@@ -108,10 +111,9 @@ export async function addVote(req: Request, res: Response) {
 
     try {
         await prisma.votes.create({
-
             data: {
                 post_id: id,
-                by: 1
+                by: 2
             }
         })
 
@@ -136,57 +138,42 @@ export async function addVote(req: Request, res: Response) {
     }
 
 }
-// }
-// export async function deleteVote(req: Request, res: Response) {
 
-//     let id = parseInt(req.params.id);
+export async function deleteVote(req: Request, res: Response) {
 
-//     try {
+    let id = parseInt(req.params.id);
 
-//         const updatedPost = await prisma.post.findUnique({
-//             where: {
-//                 id: id
-//             },
-//             select: {
-//                 votes: true
-//             }
-//         })
+    try {
 
-//         if (updatedPost === null) {
-//             throw Error("Post Doesn't exist")
-//         }
+        await prisma.votes.delete({
+            select: {
+                post_id: true,
+                by: true
+            },
+            where: {
+                by_post_id: {
+                    by: 2,
+                    post_id: id
+                }
+            }
 
-//         updatedPost.votes -= 1
+        })
 
-//         if (updatedPost.votes < 0) {
-//             updatedPost.votes = 0
-//         }
+        res.status(200).json({
+            "message": "Successfull",
+        })
 
-//         await prisma.post.update({
-//             where: {
-//                 id: id
-//             },
-//             data: {
-//                 votes: updatedPost.votes
-//             }
-//         })
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            "message": "error",
+            "error": error.toString()
+        })
 
-//         res.status(200).json({
-//             "message": "Successfull",
-//             "data": updatedPost
-//         })
-
-//     } catch (error) {
-//         console.log(error)
-//         res.status(400).json({
-//             "message": "error",
-//             "error": error.toString()
-//         })
-
-//     }
+    }
 
 
-// }
+}
 export async function deletePost(req: Request, res: Response) {
 
 }

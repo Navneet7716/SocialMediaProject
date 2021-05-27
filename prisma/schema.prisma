@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["selectRelationCount"]
 }
 
 datasource db {
@@ -45,7 +46,7 @@ model relationships {
 model votes {
   id         Int      @id @default(autoincrement())
   by         Int
-  post_id    Int      @unique
+  post_id    Int
   created_at DateTime @default(now())
   user       user?    @relation(fields: [by], references: [id])
   post       post     @relation(fields: [post_id], references: [id])
