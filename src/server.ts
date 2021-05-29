@@ -2,9 +2,11 @@
 import express, { Request, Response } from "express"
 import userRouter from "./routes/UserRoutes";
 import postRouter from "./routes/PostRoutes";
+import voteRouter from "./routes/VotesRoutes";
 import { PrismaClient } from '@prisma/client'
 
 import morgan from 'morgan'
+
 export const prisma = new PrismaClient()
 const app = express()
 
@@ -13,6 +15,7 @@ app.use(morgan('dev'))
 
 app.use("/api/user", userRouter)
 app.use("/api/post", postRouter)
+app.use("/api/vote", voteRouter)
 
 app.listen(3000, () => {
 
