@@ -12,14 +12,6 @@ postRouter.route('/:id')
     .delete(PostController.deletePost)
     .patch(PostController.updatePost)
 
-postRouter.route('/addvote/:id')
-    .patch(PostController.addVote)
-
-postRouter.route('/deletevote/:id')
-    .patch(PostController.deleteVote)
-
-
-// userRouter.route("/followuser").get(UserController.followUser)
 
 
 

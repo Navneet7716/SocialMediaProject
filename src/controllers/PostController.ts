@@ -10,7 +10,6 @@ interface post {
 
 export async function getPost(req: Request, res: Response) {
 
-
     try {
         let posts = await prisma.post.findMany({
             take: 10, include: {
@@ -105,75 +104,33 @@ export async function updatePost(req: Request, res: Response) {
 }
 
 
-export async function addVote(req: Request, res: Response) {
-
-    let id = parseInt(req.params.id);
-
-    try {
-        await prisma.votes.create({
-            data: {
-                post_id: id,
-                by: 2
-            }
-        })
-
-        let totalVotes = await prisma.votes.findMany({
-            where: {
-                post_id: id
-            }
-        })
-
-        res.status(200).json({
-            "message": "Successfull",
-            "data": totalVotes.length
-        })
-
-    } catch (error) {
-        console.log(error)
-        res.status(400).json({
-            "message": "error",
-            "error": error.toString()
-        })
-
-    }
-
-}
-
-export async function deleteVote(req: Request, res: Response) {
-
-    let id = parseInt(req.params.id);
-
-    try {
-
-        await prisma.votes.delete({
-            select: {
-                post_id: true,
-                by: true
-            },
-            where: {
-                by_post_id: {
-                    by: 2,
-                    post_id: id
-                }
-            }
-
-        })
-
-        res.status(200).json({
-            "message": "Successfull",
-        })
-
-    } catch (error) {
-        console.log(error)
-        res.status(400).json({
-            "message": "error",
-            "error": error.toString()
-        })
-
-    }
 
 
-}
 export async function deletePost(req: Request, res: Response) {
+
+    let id = parseInt(req.params.id)
+
+    try {
+
+        await prisma.post.delete({
+            where: {
+                id: id
+            }
+        })
+
+        res.status(200).json({
+            message: "Post Deleted!"
+        })
+
+
+    } catch (error) {
+
+        res.status(400).send({
+            "message": "Couldn't delete post!",
+            "error": error.toString()
+        })
+
+        console.log(error)
+    }
 
 }
