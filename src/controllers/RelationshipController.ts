@@ -3,38 +3,38 @@ import { body, validationResult } from "express-validator";
 import { prisma } from "../server";
 
 
-interface post {
-    body: string,
-    title: string,
-    userId: number,
-}
+// interface post {
+//     body: string,
+//     title: string,
+//     userId: number,
+// }
 
-export const postValidationRule = [
-    body('body')
-        .isLength({ min: 1 })
-        .withMessage(`Post can't be empty`),
-    body('title')
-        .isLength({ min: 1 })
-        .withMessage(`title can't be empty`),
-    body('userId')
-        .notEmpty()
-        .withMessage(`User Id Can't be empty`)
-        .isNumeric()
-        .withMessage(`userId has to be a number`)
+// export const postValidationRule = [
+//     body('body')
+//         .isLength({ min: 1 })
+//         .withMessage(`Post can't be empty`),
+//     body('title')
+//         .isLength({ min: 1 })
+//         .withMessage(`title can't be empty`),
+//     body('userId')
+//         .notEmpty()
+//         .withMessage(`User Id Can't be empty`)
+//         .isNumeric()
+//         .withMessage(`userId has to be a number`)
 
-]
+// ]
 
-const simpleVadationResult = validationResult.withDefaults({
-    formatter: (err) => err.msg,
-})
+// const simpleVadationResult = validationResult.withDefaults({
+//     formatter: (err) => err.msg,
+// })
 
-export const checkForErrors = (req: Request, res: Response, next: NextFunction) => {
-    const errors = simpleVadationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(400).json(errors.mapped())
-    }
-    next()
-}
+// export const checkForErrors = (req: Request, res: Response, next: NextFunction) => {
+//     const errors = simpleVadationResult(req)
+//     if (!errors.isEmpty()) {
+//         return res.status(400).json(errors.mapped())
+//     }
+//     next()
+// }
 
 
 
@@ -46,6 +46,14 @@ export async function getFollowers(req: Request, res: Response) {
         let results = await prisma.relationships.findMany({
             where: {
                 followed_id: id
+            },
+            select: {
+                follower: {
+                    select: {
+                        username: true,
+
+                    }
+                }
             }
         })
 
@@ -75,21 +83,71 @@ export async function getFollowers(req: Request, res: Response) {
 }
 
 
-export async function getFollow(req: Request, res: Response) {
+// where: {
+//     id: id,
+
+// },
+// include: {
+//     relationships: {
+//         where: {
+//             follower: {
+//                 id: id
+//             }
+//         }
+//     }
+// }
+
+export async function getFollowings(req: Request, res: Response) {
 
     try {
         let { id } = req.body
 
-        let results = await prisma.relationships.findMany({
+        let results = await prisma.user.findMany({
+            select: {
+                relationships: {
+                    select: {
+                        followed_id: true
+                    }
+                }
+            },
             where: {
-                followed_id: id
+                AND: [
+                    {
+                        id: id
+                    },
+                    {
+                        relationships: {
+                            every: {
+                                follower: {
+                                    id: id
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+
+        })
+        let data = []
+        let followerData = []
+
+        data = results[0].relationships.map(el => ({ id: el.followed_id }))
+
+
+        followerData = await prisma.user.findMany({
+            where: {
+                OR: data
+            },
+            select: {
+                username: true,
+                email: true
             }
         })
 
         res.status(200).json({
             "message": "Success",
-            "data": results,
-            "numOfFollowers": results.length
+            "data": followerData,
+            "followings": data.length
 
 
         })
@@ -144,6 +202,9 @@ export async function follow(req: Request, res: Response) {
 
 
 }
+
+
+
 export async function unfollow(req: Request, res: Response) {
     try {
 

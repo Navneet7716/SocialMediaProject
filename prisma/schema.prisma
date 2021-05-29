@@ -20,6 +20,7 @@ model user {
   notifications notifications[]
   comments      comments[]
   votes         votes[]
+  relationships relationships[]
 }
 
 model post {
@@ -39,6 +40,8 @@ model relationships {
   follower_id Int
   followed_id Int
   follow_date DateTime @default(now())
+
+  follower user @relation(fields: [follower_id], references: [id])
 
   @@unique([followed_id, follower_id])
 }

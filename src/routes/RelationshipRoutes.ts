@@ -7,11 +7,11 @@ const relationshipRouter = Router()
 
 relationshipRouter.route('/getfollowers').get(RelationshipController.getFollowers)
 
-relationshipRouter.route('/getfollows').get(RelationshipController.getFollow)
+relationshipRouter.route('/getfollowings').get(RelationshipController.getFollowings)
 
 relationshipRouter.route('/follow').post(RelationshipController.follow)
 
-relationshipRouter.route('/unfollow').delete(RelationshipController.follow)
+relationshipRouter.route('/unfollow').delete(RelationshipController.unfollow)
 
 
 
