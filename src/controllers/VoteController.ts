@@ -1,5 +1,36 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { body, validationResult } from "express-validator";
 import { prisma } from "../server";
+
+
+
+
+export const voteValidationRule = [
+    body('by')
+        .notEmpty()
+        .withMessage(`by Id Can't be empty`)
+        .isNumeric()
+        .withMessage(`Must be a number`),
+    body('id')
+        .notEmpty()
+        .withMessage(`User Id Can't be empty`)
+        .isNumeric()
+        .withMessage(`Must be a number`)
+
+
+]
+
+const simpleVadationResult = validationResult.withDefaults({
+    formatter: (err) => err.msg,
+})
+
+export const checkForErrors = (req: Request, res: Response, next: NextFunction) => {
+    const errors = simpleVadationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errors.mapped())
+    }
+    next()
+}
 
 
 export async function deleteVote(req: Request, res: Response) {

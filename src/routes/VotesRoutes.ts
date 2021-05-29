@@ -6,10 +6,10 @@ const voteRouter = Router()
 
 
 voteRouter.route('/addvote')
-    .patch(VoteController.addVote)
+    .patch(VoteController.voteValidationRule, VoteController.checkForErrors, VoteController.addVote)
 
 voteRouter.route('/deletevote')
-    .patch(VoteController.deleteVote)
+    .patch(VoteController.voteValidationRule, VoteController.checkForErrors, VoteController.deleteVote)
 
 
 

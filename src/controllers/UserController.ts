@@ -15,9 +15,11 @@ export const userValidationRules = [
         .isEmail()
         .withMessage('Must be a valid email address'),
     body('username').isLength({ min: 1 }).withMessage('Name must not be empty'),
-    body('role')
-        .isIn(['ADMIN', 'USER', 'SUPERADMIN', undefined])
-        .withMessage(`Role must be one of 'ADMIN', 'USER', 'SUPERADMIN'`),
+    body("password")
+        .isLength({
+            min: 8,
+        })
+        .withMessage("Password must be greater than 8 and contain at least one uppercase letter, one lowercase letter, and one number"),
 ]
 
 
@@ -215,30 +217,3 @@ export async function getOneUser(req: Request, res: Response) {
     }
 
 }
-
-
-// export async function followUser(req: Request, res: Response) {
-
-//     // const userid: string = "";
-//     try {
-//         const user1: User = await User.findOneOrFail({ userid: "69282a8e-bc56-45da-b500-d585d12eae90" })
-//         const user2: User = await User.findOneOrFail({ userid: "96e917a3-0a6d-4d7d-9e2c-991a8cd1663a" })
-
-//         const follow = await Follow.create(user2)
-
-//         console.log(follow)
-
-
-//         follow.save()
-
-
-//         res.send("Success")
-//     } catch (error) {
-//         console.log(error)
-//     }
-
-
-
-
-
-// }

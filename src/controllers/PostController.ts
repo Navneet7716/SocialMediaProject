@@ -18,7 +18,10 @@ export const postValidationRule = [
         .withMessage(`title can't be empty`),
     body('userId')
         .notEmpty()
-        .withMessage(`User Id Can't be empty`),
+        .withMessage(`User Id Can't be empty`)
+        .isNumeric()
+        .withMessage(`userId has to be a number`)
+
 ]
 
 const simpleVadationResult = validationResult.withDefaults({
@@ -160,9 +163,11 @@ export async function updatePost(req: Request, res: Response) {
 
 export async function deletePost(req: Request, res: Response) {
 
-    let id = parseInt(req.params.id)
+
 
     try {
+
+        let id = parseInt(req.params.id)
 
         await prisma.post.delete({
             where: {
