@@ -44,15 +44,15 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
                 id: true,
                 created_at: true,
                 posts: {
-                    select: {
-                        body: true,
-                        title: true,
-                        created_at: true
+                    include: {
+                        votes: true
                     }
                 }
-            }
 
-        })
+            }
+        }
+
+        )
 
         res.status(200).json({
             "status": "SuccessFull",

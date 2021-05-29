@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { body, validationResult } from "express-validator";
 import { prisma } from "../server";
 
 
@@ -7,6 +8,32 @@ interface post {
     title: string,
     userId: number,
 }
+
+export const postValidationRule = [
+    body('body')
+        .isLength({ min: 1 })
+        .withMessage(`Post can't be empty`),
+    body('title')
+        .isLength({ min: 1 })
+        .withMessage(`title can't be empty`),
+    body('userId')
+        .notEmpty()
+        .withMessage(`User Id Can't be empty`),
+]
+
+const simpleVadationResult = validationResult.withDefaults({
+    formatter: (err) => err.msg,
+})
+
+export const checkForErrors = (req: Request, res: Response, next: NextFunction) => {
+    const errors = simpleVadationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errors.mapped())
+    }
+    next()
+}
+
+
 
 export async function getPost(req: Request, res: Response) {
 
@@ -42,14 +69,31 @@ export async function getPost(req: Request, res: Response) {
 
 }
 export async function addPost(req: Request, res: Response) {
-    let { body, title, userId }: post = req.body;
+
     try {
+        let { body, title, userId }: post = req.body;
 
         const addedPost = await prisma.post.create({
             data: {
                 body,
                 title,
                 userId
+            },
+            select: {
+                _count: {
+                    select: { votes: true },
+                },
+                user: {
+                    select: {
+                        username: true,
+                        created_at: true,
+                    }
+                },
+                body: true,
+                title: true,
+                created_at: true
+
+
             }
         })
 
@@ -83,6 +127,14 @@ export async function updatePost(req: Request, res: Response) {
             data: {
                 body,
                 title
+            },
+            select: {
+                user: {
+                    select: {
+                        updated_at: true,
+                        username: true
+                    }
+                }
             }
         })
 

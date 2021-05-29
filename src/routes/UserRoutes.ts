@@ -12,7 +12,6 @@ userRouter.route('/:id').delete(UserController.deleteUser)
     .patch(UserController.userUpdate)
     .get(UserController.getOneUser)
 
-// userRouter.route("/followuser").get(UserController.followUser)
 
 
 
