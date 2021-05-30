@@ -14,6 +14,7 @@ postRouter
 
 postRouter
     .route("/:id")
+    .get(PostController.getPostById)
     .delete(PostController.deletePost)
     .patch(PostController.updatePost);
 

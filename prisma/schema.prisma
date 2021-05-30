@@ -30,6 +30,7 @@ model post {
   userId     Int
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
+  tags       String[]
   user       user       @relation(fields: [userId], references: [id])
   comments   comments[]
   votes      votes[]

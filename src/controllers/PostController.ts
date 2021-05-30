@@ -6,6 +6,7 @@ interface post {
     body: string;
     title: string;
     userId: number;
+    tags: [string]
 }
 
 export const postValidationRule = [
@@ -62,15 +63,43 @@ export async function getPost(req: Request, res: Response) {
         });
     }
 }
+
+
+export async function getPostById(req: Request, res: Response) {
+    try {
+
+        let id: number = parseInt(req.params.id)
+
+        let post = await prisma.post.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+
+        res.status(200).json({
+            message: "Successfull",
+            data: post,
+        });
+    } catch (error) {
+        console.log(error);
+
+        res.status(400).json({
+            message: "Couldn't find any Post",
+            error: error.toString(),
+        });
+    }
+}
 export async function addPost(req: Request, res: Response) {
     try {
-        let { body, title, userId }: post = req.body;
+        let { body, title, userId, tags }: post = req.body;
 
         const addedPost = await prisma.post.create({
             data: {
                 body,
                 title,
                 userId,
+                tags
             },
             select: {
                 _count: {
@@ -101,7 +130,7 @@ export async function addPost(req: Request, res: Response) {
     }
 }
 export async function updatePost(req: Request, res: Response) {
-    let { body, title, id } = req.body;
+    let { body, title, id, tags } = req.body;
 
     try {
         const updatedPost = await prisma.post.update({
@@ -111,6 +140,7 @@ export async function updatePost(req: Request, res: Response) {
             data: {
                 body,
                 title,
+                tags
             },
             select: {
                 user: {
