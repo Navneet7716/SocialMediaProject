@@ -42,7 +42,6 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -134,16 +133,16 @@ Discord Server - [Grits Server](https://discord.gg/NW97apa)
 
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/Navneet7716/SocialMediaProject.svg?style=for-the-badge
 [contributors-url]: https://github.com/Navneet7716/SocialMediaProject/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/Navneet7716/SocialMediaProject.svg?style=for-the-badge
 [forks-url]: https://github.com/Navneet7716/SocialMediaProject/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/Navneet7716/SocialMediaProject.svg?style=for-the-badge
 [stars-url]: https://github.com/Navneet7716/SocialMediaProject/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/Navneet7716/SocialMediaProject.svg?style=for-the-badge
 [issues-url]: https://github.com/Navneet7716/SocialMediaProject/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[license-shield]: https://img.shields.io/github/license/Navneet7716/SocialMediaProject.svg?style=for-the-badge
+[license-url]: https://github.com/Navneet7716/SocialMediaProject/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: http://linkedin.com/in/navneet-kumar-singh-80027918a
 
