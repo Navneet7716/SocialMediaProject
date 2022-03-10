@@ -8,7 +8,6 @@ import { PrismaClient } from "@prisma/client";
 
 import morgan from "morgan";
 
-
 export const prisma = new PrismaClient();
 const app = express();
 

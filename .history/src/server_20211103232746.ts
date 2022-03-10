@@ -8,7 +8,6 @@ import { PrismaClient } from "@prisma/client";
 
 import morgan from "morgan";
 
-
 export const prisma = new PrismaClient();
 const app = express();
 
@@ -21,5 +20,5 @@ app.use("/api/vote", voteRouter);
 app.use("/api/relationship", relationshipRouter);
 
 app.listen(3000, () => {
-  console.log("App running on http://localhost:3000");
+    console.log("App running on http://localhost:3000");
 });

@@ -39,20 +39,21 @@ export const checkForErrors = (
 
 export async function getUser(req: Request, res: Response, next: NextFunction) {
   try {
-      const result = await prisma.user.findMany({
-          take: 10,
-          select: {
-              username: true,
-              email: true,
-              id: true,
-              created_at: true,
-              posts: {
-                  include: {
-                      votes: true,
-                    },
-                },
-            },
-        });
+    const result = await prisma.user.findMany({
+      take: 10,
+      select: {
+        username: true,
+        email: true,
+        id: true,
+        created_at: true,
+        posts: {
+          include: {
+            votes: true,
+          },
+        },
+      },
+    });
+
     res.status(200).json({
       status: "SuccessFull",
       length: result.length,

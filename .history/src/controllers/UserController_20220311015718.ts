@@ -3,7 +3,9 @@ import { NextFunction, Request, Response } from "express";
 import { hash } from "bcryptjs";
 
 import { body, validationResult } from "express-validator";
-import { prisma } from "../server";
+// import { prisma } from "../server";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 export const userValidationRules = [
   body("email")

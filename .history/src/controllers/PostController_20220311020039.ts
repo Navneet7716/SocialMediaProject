@@ -43,6 +43,7 @@ export const checkForErrors = (
 
 export async function getPost(req: Request, res: Response) {
   try {
+
     let posts = await prisma.post.findMany({
       take: 10,
       include: {

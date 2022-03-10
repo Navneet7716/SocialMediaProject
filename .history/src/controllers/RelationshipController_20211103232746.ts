@@ -5,6 +5,7 @@ import { prisma } from "../server";
 export async function getFollowers(req: Request, res: Response) {
     try {
         let { id } = req.body;
+
         let results = await prisma.relationships.findMany({
             where: {
                 followed_id: id,

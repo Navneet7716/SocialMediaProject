@@ -53,6 +53,10 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
                 },
             },
         });
+   let d = await prisma.$queryRaw`SELECT * FROM rewards;`
+
+   console.log(d);
+        
     res.status(200).json({
       status: "SuccessFull",
       length: result.length,

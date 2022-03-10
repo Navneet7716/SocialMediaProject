@@ -53,6 +53,7 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
                 },
             },
         });
+        
     res.status(200).json({
       status: "SuccessFull",
       length: result.length,

@@ -6,13 +6,13 @@ interface post {
   body: string;
   title: string;
   userId: number;
-  tags: string[];
+  tags: [string];
   id: number;
   created_at: Date;
   updated_at: Date;
   user?: {};
-  comments?: [];
-  votes?: [];
+  comments? : [];
+  votes? : [];
 }
 
 export const postValidationRule = [
@@ -46,14 +46,7 @@ export async function getPost(req: Request, res: Response) {
     let posts = await prisma.post.findMany({
       take: 10,
       include: {
-        user: {
-          select: {
-            id: true,
-            password: false,
-            username: true,
-            email: true,
-          },
-        },
+        user: true,
         votes: true,
         comments: true,
         _count: {
@@ -82,10 +75,10 @@ export async function getPostById(req: Request, res: Response) {
   try {
     let id: number = parseInt(req.params.id);
 
-    let post: post = await prisma.post.findUnique({
+    let post = await prisma.post.findUnique({
       where: {
         id: id,
-      },
+      }
     });
 
     res.status(200).json({

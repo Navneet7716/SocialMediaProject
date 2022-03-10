@@ -11,8 +11,8 @@ interface post {
   created_at: Date;
   updated_at: Date;
   user?: {};
-  comments?: [];
-  votes?: [];
+  comments? : [];
+  votes? : [];
 }
 
 export const postValidationRule = [
@@ -52,7 +52,7 @@ export async function getPost(req: Request, res: Response) {
             password: false,
             username: true,
             email: true,
-          },
+          }
         },
         votes: true,
         comments: true,
@@ -85,7 +85,7 @@ export async function getPostById(req: Request, res: Response) {
     let post: post = await prisma.post.findUnique({
       where: {
         id: id,
-      },
+      }
     });
 
     res.status(200).json({
